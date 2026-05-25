@@ -1,134 +1,49 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tabs com api</title>
-    <style>
-        body{
-            font-family: arial ,sans-serif;
-            max-width: 700px;
-            margin: 40px auto;
-            background: #f4f4f4;
-        }
-        .tabs{
-            display: flex;
-            margin-bottom: 10px;
-        }
-        .tab-btn{
-            flex:1;
-            padding: 15px;
-            cursor: pointer;
-            border: none;
-            background: #ddd;
-            font-size: 16;
-        }
-        .tab-btn.active{
-            background: #007bff;
-            color: white;
-        }
-        .tab-content{
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .tab-content.active{
-            display: block;
-        }
-        input{
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            box-sizing: border-box;
-        }
-        button{
-            padding: 12px;
-            background: #28a745;
-            color: white;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-        .resultado{
-            margin-top: 15px;
-            padding: 15px;
-            background: #eee;
-            border-radius: 5px;
-            min-height: 40px;
-        }
-    </style>
+    <title>Tabs com API</title>
+    <link rel="stylesheet" href="index.css">
+
 </head>
+
 <body>
+
     <div class="tabs">
-        <button class="tab-btn active" onclik="abrirTab(0)">IMC </button>
-        <button class="tab-btn" onclik="abrirTab(1)">MEDIA </button>
+        <button class="tab-btn active" onclick="abrirTab(0)">IMC</button>
+        <button class="tab-btn" onclick="abrirTab(1)">Média</button>
     </div>
+
+    
     <div class="tab-content active">
         <h2>Calcular IMC</h2>
-        <input type="text" id="nome" placeholder=" Digite seu Nome">
-        <input type="number" id="idade" placeholder="Digite seu Idade">
-        <input type="number" id="altura" placeholder="Digite seu Altura">
-        <input type="number" id="peso" placeholder="Digite seu Peso">
-        <button onclick="calcularImc()">Calcular IMC</button>
-        <div class="resultado" id="resultadoImc"> </div>
+
+        <input type="text" id="nome" placeholder="Nome">
+        <input type="number" id="idade" placeholder="Idade">
+        <input type="number" id="altura" placeholder="Altura (m)">
+        <input type="number" id="peso" placeholder="Peso (kg)">
+
+        <button onclick="calcularIMC()">Calcular IMC</button>
+
+        <div class="resultado" id="resultadoIMC"></div>
     </div>
-    <script>
-        function abrirTab(index){
-            document.querySelectorALL('.tab-content').forEach(tab=> tab.classList,remove('active'));
-            document.querySelectorALL('.tab-btn').forEach(btn=> btn.classList,remove('active'));
 
+    <div class="tab-content">
+        <h2>Calcular Média</h2>
 
-            document.querySelectorALL('.tab-content')[index].classList.add('active');  
-            document.querySelectorALL('.tab-btn')[index].classList.add('active'); 
-        }
-        function formatarResposta(resultado){
-            if(resultado.erro){
-                return `<div style="color:#721c24;padding:15px;background:#f8d7da;border:1px solid #f5c6cb;border-radius:5px;font-weight:bold">
-                    erro:${resultado.erro}</div>`;
-            }
-            let html=`<div style="padding:15px;background:#d4eda;color:#155724;border:1px solid #c3e6cb;border-radius:5px;"`;
-                html+=`<h3 style="margin-top=0;margin-bottom:15px; border-bottom:1px solid #c3e6cb;padding-bottom:5px;">sucesso</h3>`
-                html+=`<ul style="list-style-type: none;padding-left:0;margin:0;"`;
+        <input type="number" id="nota1" placeholder="Nota 1">
+        <input type="number" id="nota2" placeholder="Nota 2">
 
-                for(const[key,value]of Object.entries(resultado)){
-                    let label=key.charAt(0).toLocaleUpperCase()+key.slice(1)
-                    if(key.toLocaleLowerCase()==="imc"){
-                        label="IMC";
-                    }
-                    html+=`<li style="margin-bottom:8px;font-size:16px;">
-                        <strong style="color:#0b2e13">${label}</strong> ${value}
-                        </li>`
-                }
-                html+=`</ul>
-                </div>`;
-                return html;
-        }     
-        async function calcularImc(){
-            const dados ={
-                nome :document.getElementById("nome").value,
-                idade :document.getElementById("idade").value,
-                altura :document.getElementById("altura").value,
-                peso :document.getElementById("peso").value
-            };
-            try {
-                const response = await  fetch("http://localhost:3000/imc", {
-                    method: "POST", 
-                    headers: {
-                    "content-type": "application/json"
-                    },
-                    body: JSON.stringify(dados) 
-                });
-                const resultado = await response.json();
-              
-                document .getElementById("resultadoImc").innerHTML = formatarResposta(resultado);
-            } catch (error) {
-                document.getElementById("resultadoImc"). innerHTML = formatarResposta({
-                    erro: " Ocoreu um erro inesperado. por favor tente novamente mais tarde. "
-                });
-            }
-        }
-    </script>
- </body>
+        <button onclick="calcularMedia()">Calcular Média</button>
+
+        <div class="resultado" id="resultadoMedia"></div>
+    </div>
+
+<script src="index.js"></script>
+</body>
+
 </html>
+
+
