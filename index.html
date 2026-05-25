@@ -107,25 +107,26 @@
         }     
         async function calcularImc(){
             const dados ={
-                nome :document.getElementByID("nome").value,
-                idade :document.getElementByID("idade").value,
-                altura :document.getElementByID("altura").value,
-                peso :document.getElementByID("peso").value
-            }
+                nome :document.getElementById("nome").value,
+                idade :document.getElementById("idade").value,
+                altura :document.getElementById("altura").value,
+                peso :document.getElementById("peso").value
+            };
             try {
                 const response = await  fetch("http://localhost:3000/imc", {
                     method: "POST", 
                     headers: {
-                    "content-type": "appçication/json"
+                    "content-type": "application/json"
                     },
                     body: JSON.stringify(dados) 
                 });
                 const resultado = await response.json();
-                document .qetElrmentById("resultadoImc").innderHTML = formatarResposta(ressultado);
+              
+                document .getElementById("resultadoImc").innerHTML = formatarResposta(resultado);
             } catch (error) {
-                documet.getElementById("resultadoImc"). innerHTML = formatarResposta({
+                document.getElementById("resultadoImc"). innerHTML = formatarResposta({
                     erro: " Ocoreu um erro inesperado. por favor tente novamente mais tarde. "
-                })
+                });
             }
         }
     </script>
