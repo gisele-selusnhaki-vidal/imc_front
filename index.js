@@ -76,3 +76,30 @@ async function calcularMedia() {
         document.getElementById("resultadoMedia").innerHTML = formatarResposta({ erro: "Falha na comunicação com o servidor." });
     }
 }
+async function login() {
+    const dados = {
+        email: document.getElementById("email").value,
+        senha: document.getElementById("senha").value
+    };
+
+    try {
+        const res = await fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados)
+        });
+
+        const resultado = await res.json();
+        if (resultado.erro) {
+            alert(resultado.erro)
+        } else {
+            window.location.href = "index.html";
+        }
+
+
+    } catch (erro) {
+        alert(resultado.erro)
+    }
+}
