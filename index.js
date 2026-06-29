@@ -1,3 +1,9 @@
+if (window.location.pathname.endsWith('index.html') &&
+    !localStorage.getItem('token')) {
+    window.location.href = 'login.html'
+}
+
+
 function abrirTab(index) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -94,12 +100,76 @@ async function login() {
         const resultado = await res.json();
         if (resultado.erro) {
             alert(resultado.erro)
+
         } else {
+            localStorage.setItem("token", resultado.token);
             window.location.href = "index.html";
         }
 
 
     } catch (erro) {
         alert(resultado.erro)
+    }
+}
+function logout() {
+    localStorage.removeItem('token')
+    window.location.href = "login.html "
+}
+
+async function buscarEndereco() {
+
+    const cep = document.getElementById("cep").value
+
+
+    fetch(`https://viacep.com.br/ws/${cep}/json`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            //  alert(data) 
+            document.getElementById('rua').value = data.logradouro;
+            document.getElementById('cidade').value = data.localidade;
+            document.getElementById('estado').value = data.estado;
+            document.getElementById('numero').focus()
+
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+
+}
+
+
+
+
+async function cadastrarClientes() {
+    const dados = {
+        nome: document.getElementById("nome").value,
+        cpf: document.getElementById("cpf").value,
+        cep: document.getElementById("cep").value,
+        rua: document.getElementById("rua").value,
+        cidade: document.getElementById("cidade").value,
+        estado: document.getElementById("estado").value,
+        numero: document.getElementById("numero").value
+
+    }; 
+
+    try {
+        const res = await fetch("http://localhost:3000/clientes", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados)
+        });
+
+        const resultado = await res.json();
+        document.getElementById("resultadoCliente").innerHTML = formatarResposta(resultado);
+    } catch (erro) {
+        console.log(erro)
+        document.getElementById("resultadoCliente").innerHTML = formatarResposta({ erro: "Falha na comunicação com o servidor." });
     }
 }
