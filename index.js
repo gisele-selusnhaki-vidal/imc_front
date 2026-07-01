@@ -173,3 +173,34 @@ async function cadastrarClientes() {
         document.getElementById("resultadoCliente").innerHTML = formatarResposta({ erro: "Falha na comunicação com o servidor." });
     }
 }
+
+async function cadastrarUsuario() {
+    const dados = {
+        nome: document.getElementById("nome").value,
+        email: document.getElementById("email").value,
+        senha: document.getElementById("senha").value
+    };
+
+    try {
+        const res = await fetch("http://localhost:3000/usuario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados)
+        });
+
+        const resultado = await res.json();
+        if (resultado.erro) {
+            alert(resultado.erro)
+
+        } else {
+            localStorage.setItem("token", resultado.token);
+            window.location.href = "index.html";
+        }
+
+
+    } catch (erro) {
+        alert(resultado.erro)
+    }
+}
