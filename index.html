@@ -18,7 +18,26 @@
 
     <a id="logout" class="logout-link" onclick="logout()">Logout</a>
 
+
+
     <div class="tab-content active">
+        <h2>Clientes cadastrados</h2>
+
+        <div class="search-container">
+            <input type="text" id="busca_cpf" password="busca cpf">
+            <button onclick="buscarClientes()">Buscar</button>
+            <button onclick="listarClientes()" style="background: #6c757d;">Limpar </button>
+        </div>
+
+        <div id="listarClientes" class="client-list"></div>
+
+
+    </div>
+
+
+
+
+    <div class="tab-content ">
         <h2>Cadastro cliente</h2>
 
         <input type="text" id="nome" placeholder="Nome">
@@ -28,7 +47,7 @@
         <input type="text" id="cidade" placeholder="Cidade">
         <input type="text" id="estado" placeholder="Estado">
         <input type="number" id="numero" placeholder="Número">
-     
+
 
 
 
